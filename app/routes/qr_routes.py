@@ -38,4 +38,5 @@ def create_qr_endpoint(
         "id": qr.id,
         "name": qr.name,
         "image_url": f"/static/qrcodes/{qr.id}.png",
+        "redirect_url": f"/r/{qr.id}",
     }

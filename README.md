@@ -42,3 +42,12 @@ curl -X POST http://127.0.0.1:8000/qr/create \
 ```
 
 The QR image is saved to `static/qrcodes/{id}.png` and viewable at `/static/qrcodes/{id}.png`.
+
+## Phase 4: Dynamic Redirect
+
+Scanning a QR (or visiting `http://127.0.0.1:8000/r/{qr_id}`) logs the scan and redirects to the destination URL.
+
+```bash
+# Visit the redirect link (simulates a scan)
+curl -L http://127.0.0.1:8000/r/{qr_id}
+```
