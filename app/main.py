@@ -2,6 +2,7 @@
 # ===== PHASE 2: Database Models =====
 # ===== PHASE 3: Basic QR Generation =====
 # ===== PHASE 4: Dynamic Redirect System =====
+# ===== PHASE 5: Scan Analytics Backend =====
 """
 SmartQR - Dynamic QR Code Management Platform
 FastAPI application entry point.
@@ -14,7 +15,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
 from app.database import Base, engine
-from app.routes import qr_routes, redirect_routes
+from app.routes import analytics_routes, qr_routes, redirect_routes
 
 import app.models  # noqa: F401 - register models with Base before create_all
 
@@ -37,6 +38,7 @@ app = FastAPI(
 
 app.include_router(qr_routes.router)
 app.include_router(redirect_routes.router)
+app.include_router(analytics_routes.router)
 
 # Serve generated QR images
 static_dir = Path(__file__).resolve().parent.parent / "static"

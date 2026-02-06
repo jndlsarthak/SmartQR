@@ -51,3 +51,12 @@ Scanning a QR (or visiting `http://127.0.0.1:8000/r/{qr_id}`) logs the scan and 
 # Visit the redirect link (simulates a scan)
 curl -L http://127.0.0.1:8000/r/{qr_id}
 ```
+
+## Phase 5: Scan Analytics
+
+Stats per QR: total scans, scans per day, unique vs repeat (by IP).
+
+```bash
+curl http://127.0.0.1:8000/qr/{qr_id}/stats
+```
+Returns: `total_scans`, `unique_visitors`, `repeat_scans`, `scans_per_day`.
