@@ -60,3 +60,19 @@ Stats per QR: total scans, scans per day, unique vs repeat (by IP).
 curl http://127.0.0.1:8000/qr/{qr_id}/stats
 ```
 Returns: `total_scans`, `unique_visitors`, `repeat_scans`, `scans_per_day`.
+
+## Phase 6: Custom Styling
+
+Custom colors and optional logo in the center of the QR.
+
+```bash
+# Custom colors
+curl -X POST http://127.0.0.1:8000/qr/create \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Branded", "data": "https://example.com", "fill_color": "#1a1a2e", "back_color": "#eaeaea"}'
+
+# With logo (place logo in static/logos/ and pass path)
+curl -X POST http://127.0.0.1:8000/qr/create \
+  -H "Content-Type: application/json" \
+  -d '{"name": "With Logo", "data": "https://example.com", "logo_path": "static/logos/logo.png"}'
+```

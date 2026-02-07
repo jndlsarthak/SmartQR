@@ -3,6 +3,7 @@
 # ===== PHASE 3: Basic QR Generation =====
 # ===== PHASE 4: Dynamic Redirect System =====
 # ===== PHASE 5: Scan Analytics Backend =====
+# ===== PHASE 6: Styling Engine =====
 """
 SmartQR - Dynamic QR Code Management Platform
 FastAPI application entry point.

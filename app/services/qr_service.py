@@ -1,5 +1,6 @@
 # ===== PHASE 3: Basic QR Generation =====
 # ===== PHASE 4: Dynamic Redirect System =====
+# ===== PHASE 6: Styling Engine =====
 """
 Service layer for QR code creation.
 Generates QR image and stores DB record.
@@ -11,6 +12,7 @@ import uuid
 from sqlalchemy.orm import Session
 
 from app.models import QRCode
+from app.services.styling_service import resolve_logo_path
 from app.utils.qr_generator import generate_qr_image
 
 BASE_URL = os.environ.get("SMARTQR_BASE_URL", "http://127.0.0.1:8000")
@@ -23,6 +25,7 @@ def create_qr(
     redirect_url: str | None = None,
     fill_color: str = "black",
     back_color: str = "white",
+    logo_path: str | None = None,
 ) -> QRCode:
     """
     Create a QR code: generate PNG, save to static/qrcodes/, store in DB.
@@ -33,11 +36,13 @@ def create_qr(
 
     # QR encodes our redirect URL so scans go through our server and get logged
     redirect_link = f"{BASE_URL.rstrip('/')}/r/{qr_id}"
+    resolved_logo = resolve_logo_path(logo_path)
     generate_qr_image(
         data=redirect_link,
         filename=filename,
         fill_color=fill_color,
         back_color=back_color,
+        logo_path=str(resolved_logo) if resolved_logo else None,
     )
 
     # Store record in database
@@ -48,7 +53,7 @@ def create_qr(
         redirect_url=redirect_url or original_data,
         fill_color=fill_color,
         back_color=back_color,
-        logo_path=None,
+        logo_path=logo_path if resolved_logo else None,
     )
     db.add(qr)
     db.commit()
