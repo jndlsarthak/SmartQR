@@ -1,6 +1,7 @@
 # ===== PHASE 3: Basic QR Generation =====
 # ===== PHASE 4: Dynamic Redirect System =====
 # ===== PHASE 6: Styling Engine =====
+# ===== PHASE 7: QR Templates =====
 """
 Service layer for QR code creation.
 Generates QR image and stores DB record.
@@ -26,19 +27,25 @@ def create_qr(
     fill_color: str = "black",
     back_color: str = "white",
     logo_path: str | None = None,
+    use_redirect: bool = True,
 ) -> QRCode:
     """
     Create a QR code: generate PNG, save to static/qrcodes/, store in DB.
+    use_redirect=True: QR encodes redirect URL (scans tracked). Default for URLs.
+    use_redirect=False: QR encodes data directly (WiFi/vCard/Calendar templates).
     Returns the QRCode model instance.
     """
     qr_id = str(uuid.uuid4())
     filename = f"{qr_id}.png"
 
-    # QR encodes our redirect URL so scans go through our server and get logged
-    redirect_link = f"{BASE_URL.rstrip('/')}/r/{qr_id}"
+    if use_redirect:
+        data_to_encode = f"{BASE_URL.rstrip('/')}/r/{qr_id}"
+    else:
+        data_to_encode = original_data
+
     resolved_logo = resolve_logo_path(logo_path)
     generate_qr_image(
-        data=redirect_link,
+        data=data_to_encode,
         filename=filename,
         fill_color=fill_color,
         back_color=back_color,

@@ -76,3 +76,24 @@ curl -X POST http://127.0.0.1:8000/qr/create \
   -H "Content-Type: application/json" \
   -d '{"name": "With Logo", "data": "https://example.com", "logo_path": "static/logos/logo.png"}'
 ```
+
+## Phase 7: QR Templates
+
+WiFi, vCard contact, and Calendar event templates. Data is encoded directly (no redirect).
+
+```bash
+# WiFi - scan to connect
+curl -X POST http://127.0.0.1:8000/qr/create/template \
+  -H "Content-Type: application/json" \
+  -d '{"name": "My WiFi", "template_type": "wifi", "template_data": {"ssid": "MyNetwork", "password": "secret123", "encryption": "WPA"}}'
+
+# vCard - scan to add contact
+curl -X POST http://127.0.0.1:8000/qr/create/template \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Contact", "template_type": "vcard", "template_data": {"first_name": "John", "last_name": "Doe", "email": "john@example.com", "phone": "+1234567890"}}'
+
+# Calendar event - scan to add to calendar
+curl -X POST http://127.0.0.1:8000/qr/create/template \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Event", "template_type": "calendar", "template_data": {"summary": "Team Meeting", "start": "2025-02-15T09:00:00", "end": "2025-02-15T10:00:00", "location": "Conference Room A"}}'
+```
