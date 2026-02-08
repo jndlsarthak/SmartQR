@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Dashboard – SmartQR{% endblock %}
+{% block content %}
+<h1>QR Codes</h1>
+{% if created %}
+<div class="success">QR code created successfully!</div>
+{% endif %}
+{% if qrcodes %}
+<div class="qr-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem;">
+    {% for qr in qrcodes %}
+    <div class="card" style="text-align: center;">
+        <img src="{{ qr.image_url }}" alt="{{ qr.name }}" style="width: 160px; height: 160px; margin: 0 auto 0.75rem; display: block; border-radius: 4px;">
+        <strong>{{ qr.name }}</strong>
+        <p style="font-size: 0.85rem; color: #64748b; margin-top: 0.25rem;">{{ qr.scan_count }} scans</p>
+        <p style="font-size: 0.75rem; color: #94a3b8; margin-top: 0.25rem;">{{ qr.created_at.strftime('%Y-%m-%d') }}</p>
+        <div style="margin-top: 0.75rem;">
+            <a href="/stats/{{ qr.id }}" class="btn btn-secondary" style="font-size: 0.8rem; padding: 0.35rem 0.75rem;">Stats</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p>No QR codes yet. <a href="/create">Create your first one</a>.</p>
+{% endif %}
+{% endblock %}

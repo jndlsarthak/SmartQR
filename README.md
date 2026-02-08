@@ -97,3 +97,11 @@ curl -X POST http://127.0.0.1:8000/qr/create/template \
   -H "Content-Type: application/json" \
   -d '{"name": "Event", "template_type": "calendar", "template_data": {"summary": "Team Meeting", "start": "2025-02-15T09:00:00", "end": "2025-02-15T10:00:00", "location": "Conference Room A"}}'
 ```
+
+## Phase 8: Web Interface
+
+Visit the web UI in your browser:
+
+- **Dashboard:** http://127.0.0.1:8000/dashboard — list all QR codes
+- **Create QR:** http://127.0.0.1:8000/create — form for URL, WiFi, vCard, or Calendar
+- **Stats:** Click "Stats" on any QR or visit `/stats/{qr_id}`

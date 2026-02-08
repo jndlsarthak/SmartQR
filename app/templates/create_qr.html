@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Create QR – SmartQR{% endblock %}
+{% block content %}
+<h1>Create QR Code</h1>
+{% if error %}
+<div class="error">{{ error }}</div>
+{% endif %}
+{% if success %}
+<div class="success">{{ success }}</div>
+{% endif %}
+
+<div class="card">
+    <form action="/create" method="post" id="create-form">
+        <p><label><input type="radio" name="mode" value="url" checked> URL / Custom data</label></p>
+        <p><label><input type="radio" name="mode" value="wifi"> WiFi</label></p>
+        <p><label><input type="radio" name="mode" value="vcard"> vCard (Contact)</label></p>
+        <p><label><input type="radio" name="mode" value="calendar"> Calendar event</label></p>
+
+        <div id="url-fields" style="margin-top: 1rem;">
+            <p><label>Name: <input type="text" name="name" required placeholder="My QR"></label></p>
+            <p><label>URL or data: <input type="text" name="data" placeholder="https://example.com" style="width: 100%; max-width: 400px;"></label></p>
+        </div>
+
+        <div id="wifi-fields" style="display: none; margin-top: 1rem;">
+            <p><label>Name: <input type="text" name="wifi_name" placeholder="My WiFi"></label></p>
+            <p><label>SSID: <input type="text" name="ssid" placeholder="Network name"></label></p>
+            <p><label>Password: <input type="password" name="password" placeholder="(leave empty for open)"></label></p>
+            <p><label>Encryption: <select name="encryption"><option value="WPA">WPA</option><option value="WEP">WEP</option><option value="nopass">None (open)</option></select></label></p>
+        </div>
+
+        <div id="vcard-fields" style="display: none; margin-top: 1rem;">
+            <p><label>Name: <input type="text" name="vcard_name" placeholder="Contact QR"></label></p>
+            <p><label>First name: <input type="text" name="first_name" placeholder="John"></label></p>
+            <p><label>Last name: <input type="text" name="last_name" placeholder="Doe"></label></p>
+            <p><label>Phone: <input type="text" name="phone" placeholder="+1234567890"></label></p>
+            <p><label>Email: <input type="email" name="email" placeholder="john@example.com"></label></p>
+        </div>
+
+        <div id="calendar-fields" style="display: none; margin-top: 1rem;">
+            <p><label>Name: <input type="text" name="calendar_name" placeholder="Event QR"></label></p>
+            <p><label>Summary: <input type="text" name="summary" placeholder="Team Meeting"></label></p>
+            <p><label>Start: <input type="datetime-local" name="start"></label></p>
+            <p><label>End: <input type="datetime-local" name="end"></label></p>
+            <p><label>Location: <input type="text" name="location" placeholder="Conference Room A"></label></p>
+        </div>
+
+        <p style="margin-top: 1rem;"><button type="submit" class="btn">Create QR</button></p>
+    </form>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script>
+document.querySelectorAll('input[name="mode"]').forEach(r => {
+    r.addEventListener('change', function() {
+        document.getElementById('url-fields').style.display = this.value === 'url' ? 'block' : 'none';
+        document.getElementById('wifi-fields').style.display = this.value === 'wifi' ? 'block' : 'none';
+        document.getElementById('vcard-fields').style.display = this.value === 'vcard' ? 'block' : 'none';
+        document.getElementById('calendar-fields').style.display = this.value === 'calendar' ? 'block' : 'none';
+    });
+});
+</script>
+{% endblock %}

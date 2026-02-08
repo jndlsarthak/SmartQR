@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Stats – {{ qr.name }} – SmartQR{% endblock %}
+{% block content %}
+<h1>{{ qr.name }}</h1>
+<div class="card" style="display: flex; gap: 2rem; align-items: center; flex-wrap: wrap;">
+    <img src="{{ qr.image_url }}" alt="{{ qr.name }}" style="width: 200px; height: 200px; border-radius: 8px;">
+    <div>
+        <p><strong>Total scans:</strong> {{ stats.total_scans }}</p>
+        <p><strong>Unique visitors:</strong> {{ stats.unique_visitors }}</p>
+        <p><strong>Repeat scans:</strong> {{ stats.repeat_scans }}</p>
+        <p style="margin-top: 0.5rem;"><a href="/dashboard" class="btn btn-secondary">← Back to Dashboard</a></p>
+    </div>
+</div>
+{% if stats.scans_per_day %}
+<h2 style="margin-top: 1.5rem; font-size: 1.1rem;">Scans per day</h2>
+<div class="card">
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="border-bottom: 1px solid #e2e8f0;">
+                <th style="text-align: left; padding: 0.5rem;">Date</th>
+                <th style="text-align: right; padding: 0.5rem;">Scans</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in stats.scans_per_day|reverse %}
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+                <td style="padding: 0.5rem;">{{ row.date }}</td>
+                <td style="text-align: right; padding: 0.5rem;">{{ row.count }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<p style="margin-top: 1rem; color: #64748b;">No scan data yet.</p>
+{% endif %}
+{% endblock %}
