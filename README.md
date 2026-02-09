@@ -105,3 +105,26 @@ Visit the web UI in your browser:
 - **Dashboard:** http://127.0.0.1:8000/dashboard — list all QR codes
 - **Create QR:** http://127.0.0.1:8000/create — form for URL, WiFi, vCard, or Calendar
 - **Stats:** Click "Stats" on any QR or visit `/stats/{qr_id}`
+
+## Phase 9: REST API
+
+Public API under `/api`:
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/qr` | Create QR (body: `name`, `data`, `redirect_url?`, `fill_color?`, `back_color?`, `logo_path?`) |
+| GET | `/api/qr/{id}` | Get QR details |
+| GET | `/api/qr/{id}/stats` | Get analytics |
+
+```bash
+# Create
+curl -X POST http://127.0.0.1:8000/api/qr \
+  -H "Content-Type: application/json" \
+  -d '{"name": "API Test", "data": "https://example.com"}'
+
+# Details
+curl http://127.0.0.1:8000/api/qr/{id}
+
+# Stats
+curl http://127.0.0.1:8000/api/qr/{id}/stats
+```

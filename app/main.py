@@ -6,6 +6,7 @@
 # ===== PHASE 6: Styling Engine =====
 # ===== PHASE 7: QR Templates =====
 # ===== PHASE 8: Web Interface =====
+# ===== PHASE 9: REST API =====
 """
 SmartQR - Dynamic QR Code Management Platform
 FastAPI application entry point.
@@ -18,7 +19,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
 from app.database import Base, engine
-from app.routes import analytics_routes, qr_routes, redirect_routes, web_routes
+from app.routes import analytics_routes, api_routes, qr_routes, redirect_routes, web_routes
 
 import app.models  # noqa: F401 - register models with Base before create_all
 
@@ -40,6 +41,7 @@ app = FastAPI(
 
 
 app.include_router(qr_routes.router)
+app.include_router(api_routes.router)
 app.include_router(redirect_routes.router)
 app.include_router(analytics_routes.router)
 app.include_router(web_routes.router)
